@@ -3,19 +3,10 @@
 class Upload
 {
 	cpr::Response r;
-	std::vector<cpr::Pair> in;
+	
 	std::map<std::string, std::string> arguments;
 
 public:
-
-	void setP()
-	{
-		std::map<std::string, std::string>::iterator it;
-		for (it = arguments.begin(); it != arguments.end(); it++)
-		{
-			in.push_back(cpr::Pair(it->first, it->second));
-		}
-	}
 
 	void setArguments(std::string key, std::string value)
 	{
@@ -44,10 +35,12 @@ public:
 
 	void postCPR()
 	{
-		setP();
-		
 		std::cout << "Post!" << std::endl;
-		r = cpr::Post(cpr::Url{"http://httpbin.org/post"} /*, cpr::Payload{in}*/);
+		std::map<std::string, std::string>::iterator it;
+		for (it = arguments.begin(); it != arguments.end(); it++)
+		{
+			r = cpr::Post(cpr::Url{"http://httpbin.org/post"}, cpr::Payload{{it->first, it-second}});
+		}
 		out();
 	}
 
